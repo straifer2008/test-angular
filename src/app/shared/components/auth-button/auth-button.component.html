@@ -1,0 +1,66 @@
+<!--  Auth with rest service: START  -->
+<div class="column">
+  <h2>Auth0 login</h2>
+  <p *ngIf="auth.isLoading$ | async; else authBtnWrap">Loading....</p>
+
+  <ng-template #authBtnWrap>
+    <button *ngIf="(auth.isAuthenticated$ | async) === false; else userLogoutWrap" (click)="login()">Login</button>
+
+    <ng-template #userLogoutWrap>
+
+        <button (click)="logout()">Logout</button>
+
+        <ul *ngIf="user" class="user">
+          <li class="user_avatar"><img src="{{user.picture}}" alt="avatar"></li>
+          <li class="user_field">{{user.email}}</li>
+          <li class="user_field">{{user.name}}</li>
+          <li class="user_field">{{user.nickname}}</li>
+        </ul>
+    </ng-template>
+  </ng-template>
+</div>
+<!--  Auth with rest service: END  -->
+
+<hr>
+
+<!--  Auth with rest Api: START  -->
+<div class="column">
+  <h2>Fake login from api</h2>
+  <button *ngIf="fakeUser; else fakeUserLogout;" (click)="fakeLogout()" [disabled]="loading">
+    {{loading ? "Loading..." : "Fake Logout"}}
+  </button>
+  <ng-template #fakeUserLogout>
+    <form [formGroup]="fakeLoginForm">
+      <div class="form-control">
+        <label for="fakeEmail">Email</label>
+        <input type="text" id="fakeEmail" formControlName="email" required minlength="4">
+
+        <p class="form-error" *ngIf="fakeLoginForm.controls['email'].invalid && fakeLoginForm.controls['email'].touched">
+          <span *ngIf="fakeLoginForm.controls['email'].errors.required">Email is required</span>
+          <span *ngIf="fakeLoginForm.controls['email'].errors.email">, Invalid email</span>
+        </p>
+      </div>
+
+      <div class="form-control">
+        <label for="fakePassword">Password</label>
+        <input type="text" id="fakePassword" formControlName="password">
+        <p class="form-error" *ngIf="fakeLoginForm.controls['password'].invalid && fakeLoginForm.controls['password'].touched">
+          <span *ngIf="fakeLoginForm.controls['password'].errors.required">Password is required</span>
+          <span *ngIf="fakeLoginForm.controls['password'].errors.min">, Min length 4</span>
+        </p>
+      </div>
+    </form>
+
+    <button (click)="fakeLogin()" [disabled]="loading || fakeLoginForm.invalid">
+      {{loading ? "Loading..." : "Fake login"}}
+    </button>
+  </ng-template>
+
+  <ul class="user" *ngIf="fakeUser">
+    <li><img [src]="fakeUser.avatar" alt="fakeAvatar"></li>
+    <li>{{fakeUser.email}}</li>
+    <li>{{fakeUser.first_name}}</li>
+    <li>{{fakeUser.last_name}}</li>
+  </ul>
+</div>
+<!--  Auth with rest Api: END  -->

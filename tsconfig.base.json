@@ -17,8 +17,5 @@
       "dom"
     ],
     "resolveJsonModule": true
-  },
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false
   }
 }
