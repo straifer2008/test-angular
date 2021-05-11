@@ -1,3 +1,9 @@
+<nav>
+  <a routerLink="/auth/login">Auth</a>
+</nav>
+
+<hr>
+
 <!--  Auth with rest service: START  -->
 <div class="column">
   <h2>Auth0 login</h2>
@@ -37,7 +43,7 @@
 
         <p class="form-error" *ngIf="fakeLoginForm.controls['email'].invalid && fakeLoginForm.controls['email'].touched">
           <span *ngIf="fakeLoginForm.controls['email'].errors.required">Email is required</span>
-          <span *ngIf="fakeLoginForm.controls['email'].errors.email">, Invalid email</span>
+          <span *ngIf="fakeLoginForm.controls['email'].errors.email">Invalid email</span>
         </p>
       </div>
 
@@ -46,7 +52,7 @@
         <input type="text" id="fakePassword" formControlName="password">
         <p class="form-error" *ngIf="fakeLoginForm.controls['password'].invalid && fakeLoginForm.controls['password'].touched">
           <span *ngIf="fakeLoginForm.controls['password'].errors.required">Password is required</span>
-          <span *ngIf="fakeLoginForm.controls['password'].errors.min">, Min length 4</span>
+          <span *ngIf="fakeLoginForm.controls['password'].errors.min">Min length 4</span>
         </p>
       </div>
     </form>
@@ -54,6 +60,7 @@
     <button (click)="fakeLogin()" [disabled]="loading || fakeLoginForm.invalid">
       {{loading ? "Loading..." : "Fake login"}}
     </button>
+    <p *ngIf="loginError">{{loginError}}</p>
   </ng-template>
 
   <ul class="user" *ngIf="fakeUser">
@@ -64,3 +71,18 @@
   </ul>
 </div>
 <!--  Auth with rest Api: END  -->
+
+<hr>
+
+<!-- Dispatch: START -->
+<div class="column">
+  <h2>User from Store</h2>
+  <button (click)="setUserToStore()">Set token to store</button>
+  <ul class="user">
+    <li *ngIf="(storeUser$ | async).avatar"><img [src]="(storeUser$ | async).avatar" alt="fakeAvatar"></li>
+    <li>{{(storeUser$ | async).email}}</li>
+    <li>{{(storeUser$ | async).first_name}}</li>
+    <li>{{(storeUser$ | async).last_name}}</li>
+  </ul>
+</div>
+<!-- Dispatch: END -->

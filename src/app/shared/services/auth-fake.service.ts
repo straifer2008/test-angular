@@ -52,8 +52,11 @@ export class AuthFakeService {
   }
 
   getToken(): string {
+    if (this.token) { return this.token; }
     const token = localStorage.getItem('token');
-    return this.token || window.atob(token);
+    if (token) { return window.atob(token); }
+
+    return null;
   }
 
   isAuth(): boolean {

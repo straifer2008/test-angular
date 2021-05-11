@@ -2,9 +2,12 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '@auth0/auth0-angular';
 import {DOCUMENT} from '@angular/common';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {AuthFakeService} from '../../services/auth-fake.service';
 import {IUser, IUserAuth0} from '../../interfaces/auth';
+import {Store} from '@ngrx/store';
+import {UserActions} from '../../../reducers/user/actions';
+import {UserSelectors} from '../../../reducers/user/selector';
 
 @Component({
   selector: 'app-auth-button',
@@ -14,18 +17,25 @@ import {IUser, IUserAuth0} from '../../interfaces/auth';
 export class AuthButtonComponent implements OnInit, OnDestroy {
   public user: IUserAuth0;
   public fakeUser: IUser;
+  public storeUser$: Observable<IUser>;
   public loading: boolean;
   private subscriptions: Subscription = new Subscription();
   public fakeLoginForm = new FormGroup({
     email: new FormControl('eve.holt@reqres.in', [Validators.required, Validators.email]),
     password: new FormControl('cityslicka', [Validators.required, Validators.min(4)]),
   });
+  public loginError: string;
+  public storedToken$: Observable<string>;
 
   constructor(
     public auth: AuthService,
     private fakeAuth: AuthFakeService,
     @Inject(DOCUMENT) private doc: Document,
-  ) { }
+    private store$: Store,
+  ) {
+    this.storedToken$ = this.store$.select(UserSelectors.getToken);
+    this.storeUser$ = this.store$.select(UserSelectors.state);
+  }
 
   ngOnInit(): void {
     this.subscriptions.add(this.auth.user$.subscribe((profile: IUserAuth0) => this.user = profile));
@@ -55,9 +65,16 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.subscriptions.add(this.fakeAuth.login(this.fakeLoginForm.value)
         .subscribe(
-          (user) => this.fakeUser = user,
-          (err) => { console.error(err); this.fakeUser = null; },
-          () => this.loading = false
+          (user) => {
+            this.fakeUser = user;
+            this.loading = false;
+            this.loginError = null;
+          },
+          ({ message }) => {
+            this.loginError = message;
+            this.fakeUser = null;
+            this.loading = false;
+          }
         )
       );
     }
@@ -66,5 +83,9 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
   public fakeLogout(): void {
     this.fakeAuth.logout();
     this.fakeUser = null;
+  }
+
+  public setUserToStore(): void {
+    this.store$.dispatch(UserActions.loginUser({ email: 'eve.holt@reqres.in', password: 'cityslicka' }));
   }
 }
