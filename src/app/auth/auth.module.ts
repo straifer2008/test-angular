@@ -6,7 +6,8 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { ResetPasswordComponent } from './views/reset-password/reset-password.component';
 import { AuthInputComponent } from './components/auth-input/auth-input.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     LoginComponent,
     RegisterComponent,
     ResetPasswordComponent,
-    AuthInputComponent
+    AuthInputComponent,
+    ErrorModalComponent
   ],
   imports: [
     CommonModule,

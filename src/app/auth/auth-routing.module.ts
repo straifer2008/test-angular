@@ -6,11 +6,15 @@ import {ResetPasswordComponent} from './views/reset-password/reset-password.comp
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'login',
+  },
+  {
     path: 'login',
     component: LoginComponent,
   },
   {
-    path: 'Register',
+    path: 'register',
     component: RegisterComponent,
   },
   {
