@@ -15,7 +15,7 @@
         name="email"
         type="email"
         label="User email"
-        [error]="loginForm.get('email')?.errors?.email && 'Invalid email'"
+        [error]="loginForm.get('email')?.errors && 'Invalid email'"
       ></app-auth-input>
 
       <app-auth-input
@@ -23,7 +23,7 @@
         name="password"
         type="password"
         label="User password"
-        [error]="loginForm.get('password')?.errors?.required && 'Is required'"
+        [error]="loginForm.get('password')?.errors && 'Is required'"
       ></app-auth-input>
 
       <div class="winBox-body--bottom">

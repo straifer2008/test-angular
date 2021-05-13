@@ -1,2 +1,20 @@
-<p>main works!</p>
-<button (click)="logout()">Logout</button>
+<div class="wrap">
+  <header class="header">
+    <app-nav (navClick)="modalService.open('logoutModal')"></app-nav>
+  </header>
+  <main class="main">
+    <h2>main</h2>
+  </main>
+  <footer class="footer">
+    <h2>footer</h2>
+  </footer>
+</div>
+
+<app-modal
+  id="logoutModal"
+  title="Confirmation"
+  (cancel)="modalService.close('logoutModal')"
+  (confirm)="logout()"
+>
+  <p>Do you shore want to logout?.</p>
+</app-modal>

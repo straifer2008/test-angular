@@ -1,0 +1,19 @@
+.wrap {
+  width: 100%;
+  min-height: 100vh;
+  background: #dfdfdf;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  .header {
+    background: linear-gradient(90deg,navy,#1084d0);
+    color: #ffffff;
+  }
+
+  .main {
+    padding: 10px 20px;
+  }
+
+  .footer {
+    padding: 10px 20px;
+  }
+}

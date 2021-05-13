@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Optional} from '@angular/core';
 import {AbstractControl, FormControl} from '@angular/forms';
 
 @Component({
@@ -8,12 +8,12 @@ import {AbstractControl, FormControl} from '@angular/forms';
 })
 export class AuthInputComponent implements OnInit {
   @Input() control: FormControl = new FormControl();
-  @Input() name?: string;
-  @Input() id?: string;
-  @Input() label?: string;
-  @Input() error?: string;
-  @Input() className?: string;
   @Input() type = 'text';
+  @Input() @Optional() name?: string;
+  @Input() @Optional() id?: string;
+  @Input() @Optional() label?: string;
+  @Input() @Optional() error?: string;
+  @Input() @Optional() className?: string;
   public inputInFocus: boolean;
 
   constructor() { }

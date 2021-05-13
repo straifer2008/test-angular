@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../../auth/services/login.service';
+import {ModalService} from '../../../shared/services/modal.service';
 
 @Component({
   selector: 'app-main',
@@ -8,7 +9,10 @@ import {AuthService} from '../../../auth/services/login.service';
 })
 export class MainComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    public modalService: ModalService,
+  ) { }
 
   ngOnInit(): void {
   }
