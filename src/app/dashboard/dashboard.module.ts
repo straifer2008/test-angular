@@ -1,16 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { MainComponent } from './view/main/main.component';
-import { NavComponent } from './components/nav/nav.component';
+import {DashboardRoutingModule} from './dashboard-routing.module';
+import {NavComponent} from './components/nav/nav.component';
 import {SharedModule} from '../shared/shared.module';
+import {StatisticsComponent} from './view/statistics/statistics.component';
+import {DashboardComponent} from './dashboard.component';
+import { HomeComponent } from './view/home/home.component';
 
 
 @NgModule({
   declarations: [
-    MainComponent,
+    DashboardComponent,
     NavComponent,
+    StatisticsComponent,
+    HomeComponent,
   ],
   imports: [
     CommonModule,
@@ -18,4 +22,5 @@ import {SharedModule} from '../shared/shared.module';
     SharedModule,
   ]
 })
-export class DashboardModule { }
+export class DashboardModule {
+}

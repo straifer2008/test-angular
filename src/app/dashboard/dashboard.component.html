@@ -3,10 +3,12 @@
     <app-nav (navClick)="modalService.open('logoutModal')"></app-nav>
   </header>
   <main class="main">
-    <h2>main</h2>
+
+    <router-outlet></router-outlet>
+
   </main>
   <footer class="footer">
-    <h2>footer</h2>
+    <span>footer</span>
   </footer>
 </div>
 

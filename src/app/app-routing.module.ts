@@ -7,7 +7,6 @@ import {NotAuthGuard} from './auth/not-auth.guard';
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AuthGuard],
   },
