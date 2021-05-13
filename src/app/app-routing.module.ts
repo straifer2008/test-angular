@@ -2,16 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from './auth/auth.guard';
+import {NotAuthGuard} from './auth/not-auth.guard';
 
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    canActivate: [NotAuthGuard],
   },
   {
     path: '**',
@@ -23,7 +26,7 @@ const routes: Routes = [
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { enableTracing: true }),
   ],
   exports: [ RouterModule ],
 })

@@ -7,7 +7,7 @@ import {AbstractControl, FormControl} from '@angular/forms';
   styleUrls: ['./auth-input.component.scss']
 })
 export class AuthInputComponent implements OnInit {
-  @Input() control: AbstractControl = new FormControl();
+  @Input() control: FormControl = new FormControl();
   @Input() name?: string;
   @Input() id?: string;
   @Input() label?: string;

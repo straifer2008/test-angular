@@ -9,4 +9,7 @@ export const environment = {
     redirectUri: window.location.origin,
   },
   apiUrl: 'https://reqres.in/api/',
+  tokenKey: 'token',
+  authPath: 'auth/login',
+  homePath: '/',
 };

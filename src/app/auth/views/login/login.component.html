@@ -1,15 +1,15 @@
 <div class="login">
-  <div class="login-container" [ngClass]="viewClass">
-    <div class="title">
-      <h1 class="title-text">Login</h1>
-      <div class="title-navs">
+  <div class="winBox md" [ngClass]="viewClass">
+    <div class="winBox-top">
+      <h1 class="winBox-top--title">Login</h1>
+      <div class="winBox-top--navs">
         <button (click)="viewClass = 'collapsed'">−</button>
         <button (click)="viewClass = (viewClass !== 'default' ? 'default' : 'expanded')">⛶</button>
         <a routerLink="/auth/register">✕</a>
       </div>
     </div>
 
-    <form class="login-form" [formGroup]="loginForm" (submit)="onSubmit(loginForm)">
+    <form class="winBox-body" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
       <app-auth-input
         [control]="loginForm.get('email')"
         name="email"
@@ -26,8 +26,10 @@
         [error]="loginForm.get('password')?.errors?.required && 'Is required'"
       ></app-auth-input>
 
-      <div class="login-form--bottom">
-        <a class="login-form--resetPass" routerLink="/auth/reset-password">Reset password</a>
+      <div class="winBox-body--bottom">
+        <a routerLink="/auth/reset-password">Reset password</a>
+
+        <a routerLink="/auth/register">Sign In</a>
 
         <button type="submit">Login</button>
       </div>

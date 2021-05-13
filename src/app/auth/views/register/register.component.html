@@ -1,1 +1,22 @@
-<p>register works!</p>
+<div class="register">
+  <div class="winBox md" [ngClass]="viewClass">
+    <div class="winBox-top">
+      <h1 class="winBox-top--title">Register</h1>
+      <div class="winBox-top--navs">
+        <button (click)="viewClass = 'collapsed'">−</button>
+        <button (click)="viewClass = (viewClass !== 'default' ? 'default' : 'expanded')">⛶</button>
+        <a routerLink="/auth/login">✕</a>
+      </div>
+    </div>
+    <form action="#" class="winBox-body">
+      <app-auth-input name="name" label="Name"></app-auth-input>
+      <app-auth-input name="email" label="Email"></app-auth-input>
+      <app-auth-input name="password" label="Password"></app-auth-input>
+
+      <div class="winBox-body--bottom">
+        <a routerLink="/auth/login">Back to login</a>
+        <button>Register</button>
+      </div>
+    </form>
+  </div>
+</div>

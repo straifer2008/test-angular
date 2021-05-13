@@ -4,15 +4,19 @@ import {Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {GetTokenSuccess, LoginInterface, TokenInterface, UserInterface} from '../interfaces/login.interface';
 import {environment as env} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private user: UserInterface;
-  private token: string = localStorage.getItem('token');
+  private token: string = localStorage.getItem(env.tokenKey);
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) { }
 
   register({ email, password }: LoginInterface): Observable<UserInterface> {
     return this.http.post<{ data: GetTokenSuccess }>(`${env.apiUrl}register`, {email, password})
@@ -41,7 +45,7 @@ export class AuthService {
 
   setToken({ token }: TokenInterface): Observable<TokenInterface> {
     this.token = token;
-    localStorage.setItem('token', this.token);
+    localStorage.setItem(env.tokenKey, this.token);
 
     return of({ token: this.token });
   }
@@ -51,7 +55,9 @@ export class AuthService {
   }
 
   logout(): void {
-    this.setToken(null);
+    localStorage.removeItem(env.tokenKey);
+    this.token = null;
     this.setUser(null);
+    this.router.navigate([env.authPath]);
   }
 }

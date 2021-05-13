@@ -1,0 +1,133 @@
+/* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.winBox {
+  background-color: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  padding: 0;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  @media screen and (max-width: 700px){
+    min-width: initial;
+  }
+
+  &.collapsed {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    .winBox-body {
+      display: none;
+    }
+  }
+
+  &.expanded {
+    width: 100%;
+    max-width: initial !important;
+    height: calc(100vh - 30px);
+    display: flex;
+    .winBox-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100%;
+    }
+  }
+
+  &.lg {
+    max-width: 700px;
+  }
+  &.md {
+    max-width: 500px;
+  }
+  &.sm {
+    max-width: 400px;
+  }
+  &.xs {
+    max-width: 200px;
+  }
+
+  &-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    &--title {
+      font-size: 18px;
+      margin: 0 10px;
+      word-break: break-word;
+    }
+
+    &--navs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &>* {
+        color: inherit;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        box-shadow: none;
+        height: 35px;
+        width: 35px;
+        font-size: 24px;
+        transition: 150ms ease-in-out background-color;
+        &:hover {
+          cursor: pointer;
+          background-color: #c2c2c2;
+        }
+        &:last-child:hover {
+          background-color: red;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  &-body {
+    padding: 10px;
+    color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+
+    &--bottom {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      a, button {
+        text-decoration: none;
+        transition: 200ms ease-in-out background-color;
+        border: 1px solid;
+        margin: 0 10px;
+        display: block;
+        background-color: #000;
+        color: #ffffff;
+        outline: none;
+        font-size: 18px;
+        text-align: center;
+        padding: 5px 10px;
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(255,255,255,.2);
+        }
+      }
+    }
+  }
+}
