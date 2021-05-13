@@ -1,0 +1,7 @@
+<div class="errorModal" *ngIf="error | async">
+  <p class="errorModal-title">Error</p>
+  <div class="errorModal-body">
+    <p>{{ error | async }}</p>
+  </div>
+  <button (click)="clearError()">Ok</button>
+</div>

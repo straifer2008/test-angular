@@ -1,0 +1,71 @@
+.form-control {
+  margin-bottom: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  p {
+    margin: 0;
+  }
+
+  &-label {
+    margin-right: 10px;
+  }
+
+  &-input {
+    &:before {
+      font-size: 18px;
+      content: '|';
+      margin-right: -2px;
+      font-weight: bold;
+      animation: changeColor 1.2s infinite ease;
+    }
+
+    &.focused {
+      &:before {
+        display: none;
+      }
+    }
+
+    &.invalid {
+      input.ng-touched {
+        color: red;
+      }
+    }
+
+    input {
+      background-color: transparent;
+      outline: none;
+      color: #ffffff!important;
+      box-sizing: border-box;
+      border: none;
+      box-shadow: none;
+      border-radius: 5px;
+      padding: 5px 0;
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-text-fill-color: #fff;
+        -webkit-box-shadow: 0 0 0 30px black inset !important;
+      }
+    }
+  }
+
+  &-error {
+    color: red;
+  }
+}
+
+
+@keyframes changeColor {
+  0% {
+    color: inherit;
+  }
+  50% {
+    color: transparent;
+  }
+  100% {
+    color: inherit;
+  }
+}

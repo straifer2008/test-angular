@@ -1,0 +1,29 @@
+<div class="form-control">
+  <label
+    class="form-control-label"
+    *ngIf="label"
+    [ngClass]="className"
+    [for]="name || id + '-ID'"
+  >
+    {{label}}
+  </label>
+  <span
+    class="form-control-input"
+    [ngClass]="{'focused': inputInFocus || control.value, 'invalid': control.invalid}"
+  >
+    <input
+      autocomplete="off"
+      [type]="type"
+      [id]="name || id + '-ID'"
+      [formControl]="control"
+      (focus)="inputInFocus = true"
+      (blur)="inputInFocus = false"
+    >
+  </span>
+  <p
+    class="form-control-error"
+    *ngIf="error && !inputInFocus"
+  >
+    {{error}}
+  </p>
+</div>
