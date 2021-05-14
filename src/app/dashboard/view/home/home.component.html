@@ -1,1 +1,7 @@
 <p>home works!</p>
+<button (click)="onRecord()">Record</button>
+<button (click)="recorderService.stop()">Stop</button>
+<button (click)="recorderService.togglePlay()">Pause</button>
+<div>
+  <video autoplay controls #videoPlayer style="border: 1px solid" [srcObject]="stream"></video>
+</div>

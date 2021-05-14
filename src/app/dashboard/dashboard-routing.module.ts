@@ -3,6 +3,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {StatisticsComponent} from './view/statistics/statistics.component';
 import {DashboardComponent} from './dashboard.component';
 import {HomeComponent} from './view/home/home.component';
+import { SettingsComponent } from './view/settings/settings.component';
+import { AccountComponent } from './view/account/account.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,14 @@ const routes: Routes = [
       {
         path: 'statistics',
         component: StatisticsComponent,
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
       }
     ]
   },

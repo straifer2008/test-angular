@@ -1,20 +1,15 @@
-<div>
-  <nav class="nav">
-    <div class="nav-item">
-      <a class="link">File</a>
-      <ul class="dropdown">
-        <li><a>Settings</a></li>
-        <li><a>Account</a></li>
-        <li><a (click)="navClick.emit()">Logout</a></li>
-      </ul>
-    </div>
-
-    <div class="nav-item">
-      <a class="link">Pages</a>
-      <ul class="dropdown">
-        <li><a routerLink="/">Dashboard</a></li>
-        <li><a routerLink="statistics">Statistics</a></li>
-      </ul>
-    </div>
-  </nav>
-</div>
+<nav class="nav">
+  <div class="nav-item" *ngFor="let item of menus">
+    <a class="link">{{item.text}}</a>
+    <ul class="dropdown" *ngIf="item.children">
+      <li *ngFor="let child of item.children">
+        <a
+          [routerLink]="child.link"
+          (click)="child.callback && child.callback(item, child)"
+        >
+          {{child.text}}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

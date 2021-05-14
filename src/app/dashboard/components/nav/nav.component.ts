@@ -1,4 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NavInterfaceItem } from '../../interfaces/nav.interface';
 
 @Component({
   selector: 'app-nav',
@@ -6,13 +7,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  @Output() navClick: EventEmitter<any> = new EventEmitter();
+  @Input() menus: NavInterfaceItem[];
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  public menuClick(menuItem: any): void {
-    this.navClick.emit(menuItem);
   }
 }
