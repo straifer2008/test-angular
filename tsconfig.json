@@ -16,8 +16,10 @@
       "es2018",
       "dom"
     ],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["node", "dom-mediacapture-record"]
   },
+  "files": ["index.d.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false
   }

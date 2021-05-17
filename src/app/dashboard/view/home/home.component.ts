@@ -1,6 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { RecorderService } from '../../services/recorder.service';
-import { SafeUrl } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +6,8 @@ import { SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('videoPlayer') videoPlayer: ElementRef;
-  public stream: SafeUrl;
-  constructor(
-    public recorderService: RecorderService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  onRecord(): void {
-    this.recorderService.record().subscribe((mediaRecorder) => {
-      this.stream = mediaRecorder.stream;
-    });
   }
 }

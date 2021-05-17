@@ -1,0 +1,54 @@
+<div class="recorder" [ngClass]="viewClass">
+  <div class="recorder-header">
+    <p class="recorder-header--title">Recorder: <i>{{recordingStatus | async}}</i></p>
+    <div class="recorder-header--navs">
+      <button aria-label="Minimize" (click)="viewClass = 'collapsed'">−</button>
+      <button aria-label="Maximize" (click)="viewClass = (!viewClass ? 'expanded' : null)">⛶</button>
+      <button aria-label="Delete" *ngIf="!!src" (click)="removeFile()">✕</button>
+    </div>
+  </div>
+
+  <video class="recorder-video" #videoRef [controls]="!!src" [src]="src" poster="assets/poster.jpg">
+    Your browser doesn't support HTML5 video tag.
+  </video>
+  <div class="recorder-navs">
+    <button
+      (click)="onRecord()"
+      [disabled]="(recordingStatus | async) === 'loading'"
+      *ngIf="!(recordingStatus | async) || (recordingStatus | async) === 'stopped'; else stopRecording"
+    >
+      <span>▶</span>
+      Start
+    </button>
+    <ng-template #stopRecording>
+      <button
+        [disabled]="(recordingStatus | async) === 'loading'"
+        (click)="onStop()"
+      ><span style="font-size: 18px;">∎</span>Stop</button>
+    </ng-template>
+
+    <a *ngIf="!!src && (recordingStatus | async) === 'stopped'" [href]="src" download="video.webm">Download</a>
+
+    <button
+      (click)="togglePause()"
+      [disabled]="(recordingStatus | async) !== 'recording'"
+      *ngIf="(recordingStatus | async) !== 'paused'; else resumePlaying"
+    >
+      <span>▌▌</span>
+      Pause
+    </button>
+    <ng-template #resumePlaying>
+      <button (click)="togglePause()">
+        <span>▶</span>
+        Resume
+      </button>
+    </ng-template>
+  </div>
+
+  <app-modal
+    id="RecorderError"
+    title="Recorder Error"
+  >
+    <p>{{errorText}}</p>
+  </app-modal>
+</div>

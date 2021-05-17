@@ -7,8 +7,10 @@
     "resolveJsonModule": true
   },
   "files": [
+    "index.d.ts",
     "src/main.ts",
-    "src/polyfills.ts"
+    "src/polyfills.ts",
+    "node_modules/@types/dom-mediacapture-record/index.d.ts"
   ],
   "include": [
     "src/**/*.d.ts"

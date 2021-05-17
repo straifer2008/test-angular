@@ -9,8 +9,10 @@ import {ModalService} from '../../services/modal.service';
 })
 export class ModalComponent implements OnInit, OnDestroy {
   @Input() id: string;
+  @Input() title?: string;
   @Output() confirm = new EventEmitter();
   private readonly element: any;
+  public isConfirmUsed: boolean;
 
   constructor(
     public modalService: ModalService,
@@ -20,6 +22,7 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isConfirmUsed = !!this.confirm.observers.length;
     if (!this.id) {
       console.error('modal must have an id');
       return;

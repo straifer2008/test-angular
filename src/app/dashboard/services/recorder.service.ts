@@ -1,50 +1,110 @@
-import { Inject, Injectable } from '@angular/core';
+import {ElementRef, Inject, Injectable} from '@angular/core';
 import { NAVIGATOR } from '../interfaces/nav.interface';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-declare var MediaRecorder: any;
+import {BehaviorSubject, from, Observable, throwError} from 'rxjs';
+import {catchError, switchMap, tap} from 'rxjs/operators';
+import {MediaRecordingOptions} from '../../shared/interfaces/recording.interfeace';
 
 @Injectable()
 export class RecorderService {
   private mediaStream: MediaStream;
-  private mediaOptions: {} = {
+  private mediaOptions: MediaRecordingOptions = {
     video: true,
-    audio: false,
+    audio: true,
     cursor: 'never',
     frameRate: 40,
   };
   private mediaRecorder: any;
-  private chunks: BlobPart[] = [];
-  private blob: any;
-  private fileUrl: string;
+  public recordingStatus: BehaviorSubject<'recording' | 'paused' | 'stopped' | 'loading'> = new BehaviorSubject('stopped');
 
   constructor(
     @Inject(NAVIGATOR) private navigator: Navigator,
   ) {}
 
-  public record(): Observable<any> {
-    return from(this.navigator.mediaDevices.getUserMedia(this.mediaOptions))
-      .pipe(map((stream) => this.setStream(stream)));
+  private static getBlob(data: any[]): Blob {
+    return new Blob(data, { type : 'video/webm; codecs=vp9' });
+  }
+
+  private static downloadFile(chunks: any[], fileName?: string): void {
+    const blob: Blob = new Blob(chunks, { type: 'video/webm' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.href = url;
+    a.download = fileName || 'test.webm';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  private mediaDevicesList(): Promise<[]> {
+    // @ts-ignore
+    return this.navigator.mediaDevices.enumerateDevices().then(console.log);
+  }
+
+  private setVideoStreamToVideoRef(video: ElementRef, stream: MediaStream): void {
+    if (video && video.nativeElement) {
+      video.nativeElement.srcObject = stream;
+      video.nativeElement.onloadedmetadata = () => video.nativeElement.play();
+    }
+  }
+
+  private setStream(stream: MediaStream, video?: ElementRef): Observable<Blob> {
+    const data = [];
+    this.mediaStream = stream;
+    // @ts-ignore
+    this.mediaRecorder = new MediaRecorder(stream);
+    this.mediaRecorder.ondataavailable = (e) => data.push(e.data);
+    this.mediaRecorder.start();
+    this.setVideoStreamToVideoRef(video, stream);
+
+    const promise: Promise<Blob> = new Promise((resolve, reject) => {
+      this.mediaRecorder.onstop = () => {
+        const blob = RecorderService.getBlob(data);
+        video.nativeElement.srcObject = null;
+        this.recordingStatus.next('stopped');
+        resolve(blob);
+      };
+      this.mediaRecorder.onerror = event => reject(event.name);
+    });
+
+    return from(promise);
+  }
+
+  public record(video?: ElementRef, options?: MediaRecordingOptions): Observable<Blob> {
+    this.recordingStatus.next('loading');
+    return from(this.navigator.mediaDevices.getUserMedia({...this.mediaOptions, ...options}))
+      .pipe(
+        tap(() => this.recordingStatus.next('recording')),
+        switchMap((stream) => this.setStream(stream, video)),
+        catchError(({message}) => {
+          this.recordingStatus.next('stopped');
+          return throwError(message);
+        }),
+      );
   }
 
   public stop(): MediaStream {
-    this.mediaRecorder.stop();
-    this.mediaStream?.getTracks().forEach((track) => {
+    if (!this.mediaRecorder) {
+      return null;
+    }
+
+    this.mediaRecorder?.stop();
+    this.getStream()?.getTracks().forEach((track) => {
       track.stop();
     });
 
     return this.mediaStream;
   }
 
-  public togglePlay(): void {
-    if (this.mediaRecorder.state === 'recording') {
+  // @ts-ignore
+  public togglePlay(): MediaRecorder {
+    if (this.mediaRecorder?.state === 'recording') {
       this.mediaRecorder.pause();
-      console.log('PAUSE');
-    } else if (this.mediaRecorder.state === 'paused') {
+    } else if (this.mediaRecorder?.state === 'paused') {
       this.mediaRecorder.resume();
-      console.log('RESUME');
     }
+
+    this.recordingStatus.next(this.mediaRecorder?.state);
+    return this.mediaRecorder;
   }
 
   public getStream(): MediaStream {
@@ -53,29 +113,5 @@ export class RecorderService {
     }
 
     return this.mediaStream;
-  }
-
-  private setStream(stream: MediaStream): any {
-    this.mediaStream = stream;
-    this.mediaRecorder = new MediaRecorder(this.mediaStream);
-    this.mediaRecorder.start();
-
-    this.mediaRecorder.ondataavailable = ({ data }) => {
-      this.chunks.push(data);
-    };
-
-    this.mediaRecorder.onstop = () => {
-      this.blob = new Blob(this.chunks, { type : 'video/webm; codecs=vp9' });
-      this.chunks = [];
-      this.fileUrl = URL.createObjectURL(this.blob);
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.href = this.fileUrl;
-      a.download = `${Date.now()}.webm`;
-      a.click();
-      window.URL.revokeObjectURL(this.fileUrl);
-    };
-
-    return this.mediaRecorder;
   }
 }

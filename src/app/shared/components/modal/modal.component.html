@@ -1,6 +1,6 @@
 <div class="window app-modal" style="margin: 32px; width: 250px">
   <div class="title-bar">
-    <div class="title-bar-text">Title</div>
+    <div class="title-bar-text">{{title}}</div>
 
     <div class="title-bar-controls">
       <!--      <button aria-label="Minimize">−</button>-->
@@ -13,7 +13,7 @@
       <ng-content></ng-content>
     </section>
     <section class="field-row">
-      <button (click)="confirm.emit()">OK</button>
+      <button *ngIf="isConfirmUsed" (click)="confirm.emit(id)">OK</button>
       <button (click)="modalService.close(id)">Cancel</button>
     </section>
   </div>

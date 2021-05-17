@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from './components/modal/modal.component';
 import {ModalService} from './services/modal.service';
+import { VideoRecorderComponent } from './components/video-recorder/video-recorder.component';
 
 
 
 @NgModule({
   declarations: [
-    ModalComponent
+    ModalComponent,
+    VideoRecorderComponent
   ],
   imports: [
     CommonModule
@@ -15,8 +17,9 @@ import {ModalService} from './services/modal.service';
   providers: [
     ModalService
   ],
-  exports: [
-    ModalComponent
-  ]
+    exports: [
+        ModalComponent,
+        VideoRecorderComponent
+    ]
 })
 export class SharedModule { }
