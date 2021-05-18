@@ -3,6 +3,7 @@ import { NAVIGATOR } from '../interfaces/nav.interface';
 import {BehaviorSubject, from, Observable, throwError} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 import {MediaRecordingOptions} from '../../shared/interfaces/recording.interfeace';
+import { logger } from 'codelyzer/util/logger';
 
 @Injectable()
 export class RecorderService {
@@ -21,7 +22,7 @@ export class RecorderService {
   ) {}
 
   private static getBlob(data: any[]): Blob {
-    return new Blob(data, { type : 'video/webm; codecs=vp9' });
+    return new Blob(data, { type : this.getVideoFormatByBrowser() });
   }
 
   private static downloadFile(chunks: any[], fileName?: string): void {
@@ -33,6 +34,21 @@ export class RecorderService {
     a.download = fileName || 'test.webm';
     a.click();
     window.URL.revokeObjectURL(url);
+  }
+
+  private static getVideoFormatByBrowser(): string {
+    let format = 'video/mp4';
+    const browsers = navigator.userAgent.toLowerCase();
+
+    if (browsers.indexOf('safari') !== -1) {
+      if (browsers.indexOf('chrome') > -1) {
+        format = 'video/webm';
+      } else {
+        format = 'video/mp4';
+      }
+    }
+
+    return format;
   }
 
   private mediaDevicesList(): Promise<[]> {
@@ -49,9 +65,14 @@ export class RecorderService {
 
   private setStream(stream: MediaStream, video?: ElementRef): Observable<Blob> {
     const data = [];
+    const options = {
+      audioBitsPerSecond: 128000,
+      videoBitsPerSecond: 2500000,
+      mimeType: RecorderService.getVideoFormatByBrowser()
+    };
     this.mediaStream = stream;
     // @ts-ignore
-    this.mediaRecorder = new MediaRecorder(stream);
+    this.mediaRecorder = new MediaRecorder(stream, options);
     this.mediaRecorder.ondataavailable = (e) => data.push(e.data);
     this.mediaRecorder.start();
     this.setVideoStreamToVideoRef(video, stream);
