@@ -13,9 +13,9 @@ export class VideoRecorderComponent implements OnInit, OnDestroy {
   @ViewChild('videoRef') videoRef: ElementRef;
   private subscription: Subscription = new Subscription();
   public errorText = 'Some error';
-  public showSettings = false;
+  public showSettings: boolean;
   public src: SafeUrl;
-  public recordingOptions = { audio: true, recordingScreen: false };
+  public recordingOptions: { audio: boolean; recordingScreen: boolean; } = { audio: true, recordingScreen: false };
   public viewClass: 'collapsed' | 'expanded' | 'default' = 'collapsed';
   public recordingStatus: BehaviorSubject<'recording' | 'paused' | 'stopped' | 'loading'> = this.recorderService.recordingStatus;
   constructor(
