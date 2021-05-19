@@ -1,14 +1,19 @@
 import {ElementRef, Inject, Injectable} from '@angular/core';
-import {NAVIGATOR} from '../interfaces/nav.interface';
 import {BehaviorSubject, from, Observable, of, throwError} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {MediaRecordingOptions} from '../../shared/interfaces/recording.interfeace';
+import {MediaRecordingOptions} from '../interfaces/recording.interfeace';
+import {NAVIGATOR} from './token.interface';
 
 @Injectable()
 export class RecorderService {
   private mediaRecorder: any;
   private mediaStream: MediaStream;
-  private defaultOptions: MediaRecordingOptions = {video: true, audio: true, cursor: 'never', frameRate: 40};
+  private defaultOptions: MediaRecordingOptions = {
+    video: true,
+    audio: true,
+    cursor: 'never',
+    frameRate: 40
+  };
   public recordingStatus: BehaviorSubject<'recording' | 'paused' | 'stopped' | 'loading'> = new BehaviorSubject('stopped');
 
   constructor(@Inject(NAVIGATOR) private navigator: Navigator) {}
@@ -72,11 +77,9 @@ export class RecorderService {
     if (options?.audio) {
       return from(this.navigator.mediaDevices.getUserMedia({audio: true, video: false})).pipe(
         map((audioStream) => {
-          const [videoTrack] = videoStream.getVideoTracks();
-          const [audioTrack] = audioStream.getAudioTracks();
-
-          videoStream.addTrack(audioTrack);
-          this.mediaStream = new MediaStream([videoTrack, audioTrack]);
+          this.mediaStream = new MediaStream();
+          videoStream.getTracks().forEach((track) => this.mediaStream.addTrack(track));
+          audioStream.getTracks().forEach((track) => this.mediaStream.addTrack(track));
 
           return this.mediaStream;
         })

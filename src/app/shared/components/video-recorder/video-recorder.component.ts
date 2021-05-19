@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {RecorderService} from '../../../dashboard/services/recorder.service';
-import {ModalService} from '../../services/modal.service';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {ModalService} from '../../services/modal.service';
+import {RecorderService} from '../../services/recorder.service';
 
 @Component({
   selector: 'app-video-recorder',

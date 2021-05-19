@@ -1,10 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {StatisticsComponent} from './view/statistics/statistics.component';
 import {DashboardComponent} from './dashboard.component';
-import {HomeComponent} from './view/home/home.component';
-import { SettingsComponent } from './view/settings/settings.component';
-import { AccountComponent } from './view/account/account.component';
 
 const routes: Routes = [
   {
@@ -13,19 +9,19 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
+        loadChildren: () => import('./view/home/home.module').then(m => m.HomeModule),
       },
       {
         path: 'statistics',
-        component: StatisticsComponent,
+        loadChildren: () => import('./view/statistics/statistics.module').then(m => m.StatisticsModule)
       },
       {
         path: 'settings',
-        component: SettingsComponent,
+        loadChildren: () => import('./view/settings/settings.module').then(m => m.SettingsModule)
       },
       {
         path: 'account',
-        component: AccountComponent,
+        loadChildren: () => import('./view/account/account.module').then(m => m.AccountModule)
       }
     ]
   },

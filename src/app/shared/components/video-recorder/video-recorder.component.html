@@ -2,10 +2,12 @@
   <div class="recorder-header">
     <p class="recorder-header--title">Recorder: <i>{{recordingStatus | async}}</i></p>
     <div class="recorder-header--navs">
-      <button (click)="showSettings = !showSettings">{{showSettings ? '✕' : '⚙'}}</button>
+      <button aria-label="Delete" *ngIf="!!src" (click)="removeFile()">🗑</button>
+      <button *ngIf="viewClass !== 'collapsed'" (click)="showSettings = !showSettings">
+        {{showSettings ? '✕' : '⚙'}}
+      </button>
       <button aria-label="Minimize" (click)="viewClass = 'collapsed'">−</button>
       <button aria-label="Maximize" (click)="viewClass = (!viewClass ? 'expanded' : null)">⛶</button>
-      <button aria-label="Delete" *ngIf="!!src" (click)="removeFile()">✕</button>
     </div>
   </div>
 
