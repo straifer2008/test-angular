@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private user: UserInterface;
+  public user: UserInterface;
   private token: string = localStorage.getItem(env.tokenKey);
 
   constructor(
@@ -59,5 +59,9 @@ export class AuthService {
     this.token = null;
     this.setUser(null);
     this.router.navigate([env.authPath]);
+  }
+
+  getToken(): string {
+    return this.token;
   }
 }

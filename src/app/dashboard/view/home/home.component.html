@@ -1,1 +1,8 @@
 <p>home works!</p>
+<h4>
+  <span>Hi, </span>
+  <span>{{(user | async).first_name}} </span>
+  <span>{{(user | async).last_name}}</span>
+</h4>
+
+<img [src]="(user | async).avatar" alt="avatar">

@@ -4,6 +4,7 @@ import {LoginInterface, TokenInterface, UserInterface} from '../interfaces/login
 export const authTypes = {
   login: '[AUTH] LOGIN',
   loginSuccess: '[AUTH] LOGIN_SUCCESS',
+  logout: '[AUTH] LOGOUT',
   register: '[AUTH] REGISTER',
   registerSuccess: '[AUTH] REGISTER_SUCCESS',
   getToken: '[AUTH] GET_TOKEN',
@@ -38,5 +39,9 @@ export const setUserAction = createAction(
 export const authErrorAction = createAction(
   authTypes.authError,
   props<{ message }>()
+);
+
+export const logoutAction = createAction(
+  authTypes.logout
 );
 
