@@ -11,11 +11,13 @@ import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 })
 export class VideoRecorderComponent implements OnInit, OnDestroy {
   @ViewChild('videoRef') videoRef: ElementRef;
-  public errorText = 'Some error';
-  public recordingStatus: BehaviorSubject<'recording' | 'paused' | 'stopped' | 'loading'> = this.recorderService.recordingStatus;
   private subscription: Subscription = new Subscription();
+  public errorText = 'Some error';
+  public showSettings = false;
   public src: SafeUrl;
-  public viewClass = 'collapsed';
+  public recordingOptions = { audio: true, recordingScreen: false };
+  public viewClass: 'collapsed' | 'expanded' | 'default' = 'collapsed';
+  public recordingStatus: BehaviorSubject<'recording' | 'paused' | 'stopped' | 'loading'> = this.recorderService.recordingStatus;
   constructor(
     private recorderService: RecorderService,
     private modalService: ModalService,
@@ -30,10 +32,17 @@ export class VideoRecorderComponent implements OnInit, OnDestroy {
   }
 
   public onRecord(): void {
-    this.subscription.add(this.recorderService.record(this.videoRef).subscribe(
-      (blob) => this.src = this.setFileUrls(blob),
-      (error) => this.showErrorModal(error)
-    ));
+    if (this.recordingOptions.recordingScreen) {
+      this.subscription.add(this.recorderService.recordScreen(this.videoRef, {audio: this.recordingOptions.audio}).subscribe(
+        (blob) => this.src = this.setFileUrls(blob),
+        (error) => this.showErrorModal(error)
+      ));
+    } else {
+      this.subscription.add(this.recorderService.record(this.videoRef, {audio: this.recordingOptions.audio}).subscribe(
+        (blob) => this.src = this.setFileUrls(blob),
+        (error) => this.showErrorModal(error)
+      ));
+    }
   }
 
   public onStop(): void {

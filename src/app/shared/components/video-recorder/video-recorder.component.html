@@ -2,6 +2,7 @@
   <div class="recorder-header">
     <p class="recorder-header--title">Recorder: <i>{{recordingStatus | async}}</i></p>
     <div class="recorder-header--navs">
+      <button (click)="showSettings = !showSettings">{{showSettings ? '✕' : '⚙'}}</button>
       <button aria-label="Minimize" (click)="viewClass = 'collapsed'">−</button>
       <button aria-label="Maximize" (click)="viewClass = (!viewClass ? 'expanded' : null)">⛶</button>
       <button aria-label="Delete" *ngIf="!!src" (click)="removeFile()">✕</button>
@@ -43,6 +44,21 @@
         Resume
       </button>
     </ng-template>
+  </div>
+
+  <div class="recorder-settings" *ngIf="showSettings">
+    <div class="row">
+      <label class="checkbox">
+        <input type="checkbox" [(ngModel)]="recordingOptions.audio">
+        <span>Allow audio</span>
+      </label>
+      <label class="switch">
+        <span class="switch-label">Web cam</span>
+        <input type="checkbox" [(ngModel)]="recordingOptions.recordingScreen">
+        <i class="switch-slider"></i>
+        <span class="switch-label">Screen</span>
+      </label>
+    </div>
   </div>
 
   <app-modal

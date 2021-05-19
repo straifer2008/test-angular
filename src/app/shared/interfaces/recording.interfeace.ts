@@ -4,16 +4,24 @@ interface MediaRecordingVideoOptions {
   aspectRatio?: { ideal?: number };
   facingMode?: string | { exact?: string };
   deviceId?: string;
+  cursor?: 'never' | 'always' | 'motion';
 }
 
 interface MediaRecordingAudioOptions {
   sampleSize?: number;
   channelCount?: number;
+  echoCancellation?: boolean;
+  noiseSuppression?: boolean;
+  sampleRate?: number;
+  deviceId?: string;
+  frameRate?: number;
+  cursor?: 'never' | 'always' | 'motion';
 }
 
 export interface MediaRecordingOptions {
   video?: MediaRecordingVideoOptions | boolean;
   audio?: MediaRecordingAudioOptions | boolean;
-  cursor?: 'never';
+  cursor?: 'never' | 'always' | 'motion';
   frameRate?: number;
+  logicalSurface?: boolean;
 }

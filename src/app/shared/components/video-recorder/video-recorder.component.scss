@@ -10,7 +10,9 @@
   background: silver;
   box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
   box-sizing: border-box;
-  position: relative;
+  position: fixed;
+  left: calc(50% - 200px);
+  top: 20%;
   &-header {
     width: 100%;
     display: flex;
@@ -98,11 +100,28 @@
     }
   }
 
+  &-settings {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+
   &.collapsed {
     position: fixed;
+    top: initial;
     left: 0;
     bottom: 0;
-    .recorder-video, .recorder-navs {
+    .recorder-video, .recorder-navs, .recorder-settings {
       display: none;
     }
   }
@@ -115,5 +134,73 @@
     height: 100%;
     max-width: calc(100% - 20px);
     max-height: calc(100% - 20px);
+  }
+
+  .switch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      &:checked {
+        &+.switch-slider {
+          &:before {
+            content: '⏺';
+            left: calc(100% - 28px);
+            background-color: navajowhite;
+          }
+        }
+      }
+    }
+
+    &-slider {
+      cursor: pointer;
+      width: 50px;
+      height: 30px;
+      border-radius: 15px;
+      margin: 0 5px;
+      background-color: rgba(0,0,0,.2);
+      position: relative;
+      &:before {
+        content: '📷';
+        position: absolute;
+        left: 2px;
+        top: calc(50% - 13px);
+        height: 26px;
+        width: 26px;
+        border-radius: 50%;
+        background-color: green;
+        transition: 300ms left ease-in-out;
+        font-style: normal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    &-label {
+      font-size: 14px;
+      color: #000;
+    }
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+    position: initial;
+    &:hover {
+      cursor: pointer;
+    }
+
+    input {
+      opacity: 1;
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
   }
 }

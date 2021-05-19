@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ModalComponent } from './components/modal/modal.component';
 import {ModalService} from './services/modal.service';
 import { VideoRecorderComponent } from './components/video-recorder/video-recorder.component';
+import {FormsModule} from '@angular/forms';
 
 
 
@@ -11,9 +12,10 @@ import { VideoRecorderComponent } from './components/video-recorder/video-record
     ModalComponent,
     VideoRecorderComponent
   ],
-  imports: [
-    CommonModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule
+    ],
   providers: [
     ModalService
   ],
